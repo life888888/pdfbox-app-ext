@@ -1,0 +1,68 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
+	<id>bin</id>
+	<!-- 最終打包成一個用於釋出的bin-distribution(zip;tar.gz)檔案 -->
+	<formats>
+		<format>tar.gz</format>
+		<format>zip</format>
+	</formats>
+
+	<fileSets>
+		<!-- 把專案相關的說明檔案，打包進bin-distribution檔案的根目錄 -->
+		<fileSet>
+			<directory>${project.basedir}</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>LICENSE</include>
+				<include>COPYING</include>
+				<include>README</include>
+				<include>README.adoc</include>
+			</includes>
+		</fileSet>
+
+		<!-- 把專案的指令碼檔案目錄(src/main/scripts)中的啟動指令碼檔案，打包進bin-distribution檔案的跟目錄 -->
+		<fileSet>
+			<directory>${project.build.scriptSourceDirectory}</directory>
+			<outputDirectory></outputDirectory>
+			<includes>
+				<include>pdfbox</include>
+				<include>pdfbox2</include>
+			</includes>
+			<fileMode>0744</fileMode>
+		</fileSet>
+		<fileSet>
+			<directory>${project.build.scriptSourceDirectory}</directory>
+			<outputDirectory></outputDirectory>
+			<includes>
+				<include>pdfbox.bat</include>
+				<include>pdfbox2.bat</include>
+			</includes>
+		</fileSet>
+
+
+
+		<!-- 把專案自己編譯出來的jar檔案，打包進bin-distribution檔案的根目錄 -->
+		<fileSet>
+			<directory>${project.build.directory}</directory>
+			<outputDirectory></outputDirectory>
+			<includes>
+				<include>pdfbox-app-ext.jar</include>
+			</includes>
+		</fileSet>
+
+	
+		
+				
+	</fileSets>
+	<!-- Adds dependencies to bin-distribution(zip;tar.gz) package under lib directory -->
+	<dependencySets>
+		<!-- 第三方jar不要解壓，打包進bin-distribution檔案的lib目錄 -->
+		<!-- 不要包含專案的artifact(jpdfbookmarks.jar)-->
+		<dependencySet>            
+			<outputDirectory></outputDirectory>
+			<unpack>false</unpack>
+			<useProjectArtifact>false</useProjectArtifact>
+		</dependencySet>
+	</dependencySets>
+</assembly>
