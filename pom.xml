@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.life888888.pdfbox</groupId>
   <artifactId>pdfbox-app-ext</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <name>Apache PDFBox application extension</name>
   <properties>
     <maven.compiler.target>1.8</maven.compiler.target>
