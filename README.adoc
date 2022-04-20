@@ -1,0 +1,356 @@
+= pdfbox-app-ext
+life888888
+:doctype: article
+:encoding: utf-8
+:lang: en
+:toc: left
+:numbered:
+:experimental:
+
+
+Apache PDFBox Application Extension - A Simple Utility base on Apache PDFBox to help you to read PDF Document Attributes and set PDF Document Attributes.
+
+* PDF Document Attributes list:
+** title
+** subject
+** keywords
+** author
+** creator
+** producer
+** creationDate
+** modificationDate
+** pages(page num of pdf, READ ONLY)
+
+== Build System requirement
+
+* JDK 8.x (JDK 8+)
+* Maven 3.6.x+
+
+=== Dependency Lib
+
+* Apache PDF Box (For Read / Write PDF Document Attributes)
+* picocli (Process Command Line arguments and output help) 
+
+== How to build and package ?
+
+=== Download Source
+
+Goto https://github.com/life888888/pdfbox-app-ext/releases[pdfbox-app-ext/releases]
+
+Click link Assets -> Source code(zip) or Source code(tar.gz) 
+
+Download pdfbox-app-ext-x.x.x.tar.gz (pdfbox-app-ext-x.x.x.zip)
+
+Unzip pdfbox-app-ext-x.x.x.tar.gz
+
+=== Build and Package
+
+[source,bash]
+----
+cd pdfbox-app-ext-x.x.x
+
+mvn clean package
+
+cd target
+----
+
+your can find:
+
+* Binary Release
+** pdfbox-app-ext-bin-0.0.1-SNAPSHOT.tar.gz
+** pdfbox-app-ext-bin-0.0.1-SNAPSHOT.zip
+
+* Source Release
+** pdfbox-app-ext-src-0.0.1-SNAPSHOT.tar.gz
+** pdfbox-app-ext-src-0.0.1-SNAPSHOT.zip
+
+== HOW TO INSTALL AND UNINSTALL
+
+1. Download pdfbox-app-ext bin file.
+
+Goto https://github.com/life888888/pdfbox-app-ext/releases[pdfbox-app-ext/releases]
+
+Click link Assets -> pdfbox-app-ext-bin-x.x.x.tar.gz ( or pdfbox-app-ext-bin-x.x.x.zip)
+
+Download pdfbox-app-ext-bin-x.x.x.tar.gz ( or pdfbox-app-ext-bin-x.x.x.zip)
+
+2. Unzip  pdfbox-app-ext bin file.
+
+Unzip pdfbox-app-ext-bin-x.x.x.tar.gz
+
+3. Add the app directory to the PATH environment.
+
+[source,bash]
+----
+nano ~/.bashrc
+export PATH=~/TOOLS/pdfbox-app-ext-bin-x.x.x:$PATH
+[Ctrl + o (Save)]
+[Ctrl + x (Exit nano)]
+
+exit
+----
+
+== HOW TO EXECUTE
+
+pdfbox-app-ext just provide two functions <<read-pdf-attributes>>, <<set-pdf-attributes>>.
+
+=== System requirement
+
+* JDK 8.x (JDK 8+)
+
+[#read-pdf-attributes]
+=== Read PDF Attributes
+
+[source,bash]
+.Usage Exmaple0: Show Help
+----
+$ pdfbox2 DumpPDFInfo -V
+Missing required parameter: '<INPUTFILE>'
+Show PDF Document properties.
+
+Usage: pdfbox2 DumpPDFInfo [-h] [(-F=<saveToPropsFile> | -f)] (-e | ([-n] [-t]
+                           [-a] [-s] [-k] [-c] [-p] [-r] [-m]))
+                           [@<filename>...] <INPUTFILE>...
+Prints usage help and version help when requested.
+
+      [@<filename>...]     One or more argument files containing options.
+      <INPUTFILE>...       The PDF document to use
+  -h, --help               Print usage help and exit.
+
+Save Output To props File:
+  -f, --saveDFile          Save Output To Default props File - $inputfile.props.
+                             txt
+  -F, --saveToPropsFile=<saveToPropsFile>
+                           Save Output To props File
+
+PDF Info Options:
+
+PDF Info Options one bye one:
+  -a, --author             Author
+  -c, --creator            Creator
+  -k, --keywords           Keywords
+  -m, --modificationDate   Modification Date
+  -n, --numofpages         Number Of PDF Pages
+  -p, --producer           Producer
+  -r, --creationDate       Creation Date
+  -s, --subject            Subject
+  -t, --title              Title
+
+PDF Info Options:
+  -e, --everything         PDF Info Options for all - auto include -n, -t, -a,
+                             -s, -k, -c, -p, -r, -m
+Usage Exmaple1:
+pdfbox2 DumpPDFInfo -e README.pdf
+
+Usage Exmaple2:
+pdfbox2 DumpPDFInfo -a -t -s README.pdf
+
+Usage Exmaple3:
+pdfbox2 DumpPDFInfo -e -f README.pdf
+
+Usage Exmaple4:
+pdfbox2 DumpPDFInfo -e -F README.pdf.props README.pdf
+----
+
+[source,bash]
+.Usage Exmaple1: Show README.pdf **all attributes** (by argument `-e`) to console.
+----
+$ pdfbox2 DumpPDFInfo -e README.pdf
+pages=12
+title=Asciidoctor
+subject=null
+keywords=null
+author=Dan Allen, Sarah White
+creator=Asciidoctor PDF 1.6.0, based on Prawn 2.4.0
+producer=Dan Allen, Sarah White
+creationDate=2022-03-16T19:09:00.000+08:00
+modificationDate=2022-03-16T19:02:56.000+08:00
+----
+
+[source,bash]
+.Usage Exmaple2: Show README.pdf **attributes author, title, subject** (by argument `-a`, `-t`, `-s`,) to console.
+----
+$ pdfbox2 DumpPDFInfo -a -t -s README.pdf
+title=Asciidoctor
+subject=null
+author=Dan Allen, Sarah White
+----
+
+[source,bash]
+.Usage Exmaple3: Show README.pdf **all attributes** (by argument `-e`) output to file `README.pdf.props.txt` (by argument `-f`)
+----
+$ pdfbox2 DumpPDFInfo -e -f README.pdf
+----
+
+[source,bash]
+.Usage Exmaple4: Show README.pdf **all attributes** (by argument `-e`) output to file `README.pdf.props` (by argument `-F`)
+----
+pdfbox2 DumpPDFInfo -e -F README.pdf.props README.pdf
+----
+
+[source,bash]
+.Usage Exmaple5: Write README.pdf **attributes title, pages** (by argument `-t`, `-n`) to console
+----
+$ pdfbox2 DumpPDFInfo -t -n README.pdf
+----
+
+
+[#set-pdf-attributes]
+=== Set PDF Attributes
+
+[source,bash]
+.Usage Exmaple0: Show Help
+----
+$ pdfbox2 ApplyPDFInfo -V
+Missing required options and parameters: '--outputfile=<outputfile>', '<INPUTFILE>'
+Set PDF Document properties.
+
+Usage: pdfbox2 ApplyPDFInfo [-h] [-a=<author>] [-c=<creator>] [-k=<keywords>]
+                            [-m=<modificationDate>] -o=<outputfile>
+                            [-p=<producer>] [-r=<creationDate>] [-s=<subject>]
+                            [-t=<title>] [@<filename>...] <INPUTFILE>...
+Prints usage help and version help when requested.
+
+      [@<filename>...]      One or more argument files containing options.
+      <INPUTFILE>...        The PDF document to use
+  -a, --author=<author>     Author
+  -c, --creator=<creator>   Creator
+  -h, --help                Print usage help and exit.
+  -k, --keywords=<keywords> Keywords
+  -m, --modificationDate=<modificationDate>
+                            Modification Date
+                            ISO Datetime formate -
+                            "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+                            EX:"2022-03-16T19:02:56.000+08:00"
+  -o, --outputfile=<outputfile>
+                            Write Out PDF document
+  -p, --producer=<producer> Producer
+  -r, --creationDate=<creationDate>
+                            Creation Date
+                            ISO Datetime formate -
+                            "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+                            EX:"2022-03-16T19:02:56.000+08:00"
+  -s, --subject=<subject>   Subject
+  -t, --title=<title>       Title
+
+Usage Exmaple1:
+pdfbox2 ApplyPDFInfo -t "My Title" -s "My Subject" -a "Demo Author1" -o README.
+NEW.pdf README.pdf
+
+
+Useage Exmaple2:
+pdfbox2 ApplyPDFInfo @README.props
+
+
+#####README.props
+#####
+--title "Test Title 1"
+--keywords "My Keyword 1, My Keyword 2, My Keyword 3"
+--author "Author1"
+--subject "Subject 1"
+--producer "Producer 1"
+--creator "pdfbox-app-ext"
+--creationDate 2022-05-16T19:08:36.000+08:00
+--modificationDate 2022-05-16T19:02:56.000+08:00
+--outputfile DEMO.pdf
+README.pdf
+#####
+
+Useage Exmaple3:
+pdfbox2 ApplyPDFInfo @README.pdf.props.txt -o README.NEW.pdf README.pdf
+
+#####README.pdf.props.txt
+#####
+--title "My Title A"
+--subject "My Subject B"
+--keywords "My keywords C1, My keywords C2, My keywords C3"
+--author "Author D"
+--creator "PDFBoxExt"
+--producer "DemoApp1"
+--creationDate "2022-04-16T19:09:00.000+08:00"
+--modificationDate "2022-04-16T19:02:56.000+08:00"
+#####
+----
+
+[source,bash]
+.Usage Exmaple1:
+----
+pdfbox2 ApplyPDFInfo -t "My Title" -s "My Subject" -a "Demo Author1" -o README.
+NEW.pdf README.pdf
+----
+
+[source,bash]
+.Useage Exmaple2: set PDF Attributes , all command argument from file `README.props`
+----
+pdfbox2 ApplyPDFInfo @README.props
+----
+
+[source,bash]
+.README.props
+----
+--title "Test Title 1"
+--keywords "My Keyword 1, My Keyword 2, My Keyword 3"
+--author "Author1"
+--subject "Subject 1"
+--producer "Producer 1"
+--creator "pdfbox-app-ext"
+--creationDate 2022-05-16T19:08:36.000+08:00
+--modificationDate 2022-05-16T19:02:56.000+08:00
+--outputfile DEMO.pdf
+README.pdf
+----
+
+[source,bash]
+.Useage Exmaple3:
+----
+pdfbox2 ApplyPDFInfo @README.pdf.props.txt -o README.NEW.pdf README.pdf
+----
+
+[source,bash]
+.README.pdf.props.txt
+----
+--title "My Title A"
+--subject "My Subject B"
+--keywords "My keywords C1, My keywords C2, My keywords C3"
+--author "Author D"
+--creator "PDFBoxExt"
+--producer "DemoApp1"
+--creationDate "2022-04-16T19:09:00.000+08:00"
+--modificationDate "2022-04-16T19:02:56.000+08:00"
+----
+
+
+[source,bash]
+.Useage Exmaple4: Set README.pdf **attributes title, subject** (by argument `-t`, `-s`) to output file README.NEW.pdf (by argument `-o`) .
+----
+$ pdfbox2 ApplyPDFInfo -t "My Title" -s "My Subject" -o README.NEW.pdf README.pdf
+----
+
+=== Run On Windows
+
+1. Chanage Code Page to 65001 (UTF-8)
+
+[source,bash]
+----
+> chcp 65001
+----
+
+2. call pdfbox2 by full path
+[source,bash]
+----
+> C:\TOOLS\pdfbox-app-ext-bin-0.0.1-SNAPSHOT\pdfbox2 DumpPDFInfo -e ZZZAAA.pdf
+pages=12
+title=Asciidoctor
+subject=My Subject
+keywords=My Keywords
+author=Dan Allen, Sarah White
+creator=Asciidoctor PDF 1.6.0, based on Prawn 2.4.0
+producer=Dan Allen, Sarah White
+creationDate=2022-03-16T04:02:56.000-07:00
+modificationDate=2022-03-16T04:02:56.000-07:00
+
+
+> C:\TOOLS\pdfbox-app-ext-bin-0.0.1-SNAPSHOT\pdfbox2 DumpPDFInfo -e -f ZZZAAA.pdf
+----
+
+

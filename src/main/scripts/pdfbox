@@ -1,0 +1,4 @@
+FPATH_SCRIPT="$(realpath "${BASH_SOURCE[-1]}")"
+SCRIPT_DIR="$(dirname "$FPATH_SCRIPT")"
+
+java -jar ${SCRIPT_DIR}/pdfbox-app-2.0.25.jar "$@"
