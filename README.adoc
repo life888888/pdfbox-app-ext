@@ -205,7 +205,7 @@ $ pdfbox2 ApplyPDFInfo -V
 Missing required options and parameters: '--outputfile=<outputfile>', '<INPUTFILE>'
 Set PDF Document properties.
 
-Usage: pdfbox2 ApplyPDFInfo [-h] [-a=<author>] [-c=<creator>] [-k=<keywords>]
+Usage: pdfbox2 ApplyPDFInfo [-hU] [-a=<author>] [-c=<creator>] [-k=<keywords>]
                             [-m=<modificationDate>] -o=<outputfile>
                             [-p=<producer>] [-r=<creationDate>] [-s=<subject>]
                             [-t=<title>] [@<filename>...] <INPUTFILE>...
@@ -232,6 +232,11 @@ Prints usage help and version help when requested.
                             EX:"2022-03-16T19:02:56.000+08:00"
   -s, --subject=<subject>   Subject
   -t, --title=<title>       Title
+  -U, --allowSetNULL        Allow Set NULL value to attributes - NULL
+                            if set this , and value is NULL will set attribute
+                              to be NULL!
+                            if not set this , and value is NULL will skip to
+                              set attribute!
 
 Usage Exmaple1:
 pdfbox2 ApplyPDFInfo -t "My Title" -s "My Subject" -a "Demo Author1" -o README.
@@ -265,6 +270,22 @@ pdfbox2 ApplyPDFInfo @README.pdf.props.txt -o README.NEW.pdf README.pdf
 --subject "My Subject B"
 --keywords "My keywords C1, My keywords C2, My keywords C3"
 --author "Author D"
+--creator "PDFBoxExt"
+--producer "DemoApp1"
+--creationDate "2022-04-16T19:09:00.000+08:00"
+--modificationDate "2022-04-16T19:02:56.000+08:00"
+#####
+
+
+Useage Exmaple4:
+pdfbox2 ApplyPDFInfo @README.pdf.props.txt -U -o README.NEW.pdf README.pdf
+
+#####README.pdf.props.txt
+#####
+--title "My Title A"
+--subject "NULL"
+--keywords "My keywords C1, My keywords C2, My keywords C3"
+--author "NULL"
 --creator "PDFBoxExt"
 --producer "DemoApp1"
 --creationDate "2022-04-16T19:09:00.000+08:00"
@@ -319,9 +340,28 @@ pdfbox2 ApplyPDFInfo @README.pdf.props.txt -o README.NEW.pdf README.pdf
 --modificationDate "2022-04-16T19:02:56.000+08:00"
 ----
 
+[source,bash]
+.Useage Exmaple4: set subject=NULL, author=NULL, -U
+----
+pdfbox2 ApplyPDFInfo @README.pdf.props.txt -U -o README.NEW.pdf README.pdf
+----
 
 [source,bash]
-.Useage Exmaple4: Set README.pdf **attributes title, subject** (by argument `-t`, `-s`) to output file README.NEW.pdf (by argument `-o`) .
+.README.pdf.props.txt 
+----
+--title "My Title A"
+--subject "NULL"
+--keywords "My keywords C1, My keywords C2, My keywords C3"
+--author "NULL"
+--creator "PDFBoxExt"
+--producer "DemoApp1"
+--creationDate "2022-04-16T19:09:00.000+08:00"
+--modificationDate "2022-04-16T19:02:56.000+08:00"
+----
+
+
+[source,bash]
+.Useage Exmaple5: Set README.pdf **attributes title, subject** (by argument `-t`, `-s`) to output file README.NEW.pdf (by argument `-o`) .
 ----
 $ pdfbox2 ApplyPDFInfo -t "My Title" -s "My Subject" -o README.NEW.pdf README.pdf
 ----
