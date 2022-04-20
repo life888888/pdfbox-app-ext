@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 
@@ -158,12 +157,14 @@ public class DumpPDFInfo implements Callable<Integer> {
 		}
 		// creationDate
 		if (pdfInfoArgGroup.pdfInfoSingleArgGroup.showCreationDate || isShowAll) {
-			String cdate = sdf.format(info.getCreationDate().getTime());
+			String cdate = null;
+			if (info.getCreationDate()!=null) cdate = sdf.format(info.getCreationDate().getTime());
 			dumpP("creationDate", cdate);
 		}
 		// modificationDate
 		if (pdfInfoArgGroup.pdfInfoSingleArgGroup.showModificationDate || isShowAll) {
-			String mdate = sdf.format(info.getModificationDate().getTime());
+			String mdate = null;
+			if (info.getModificationDate()!=null) mdate=sdf.format(info.getModificationDate().getTime());
 			dumpP("modificationDate", mdate);
 		}
 		if (saveOutputFile != null) {
@@ -173,6 +174,7 @@ public class DumpPDFInfo implements Callable<Integer> {
 	}
 
 	void dumpP(String key, String val) {
+		if (val == null) val = "NULL";
 		if (saveOutputFile == null) {
 			System.out.println(key + "=" + val);
 		} else if (saveOutputFile != null) {
